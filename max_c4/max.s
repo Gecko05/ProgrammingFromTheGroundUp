@@ -1,10 +1,10 @@
 .section .data
 _dataList:
- .long 1, 2, 4, 5, 6, 7, 2, 3, 4, 0
+ .long 1, 2, 4, 5, 6, 7, 2, 3, 9, 0 #list must end in 0
  .section .text
  .globl _start
 _start:
- pushq _dataList
+ pushq $_dataList
  call maximum
  movq %rax, %rbx
  movq $1, %rax
@@ -19,15 +19,15 @@ maximum:
  movq $0, %rax # rax stores maximum
  movq $0, %rbx # rbx stores count
 _cmpLoop:
- movq (%rcx, %rbx, 8), %rdx
- cmpq $0, %rdx
+ movl (%ecx, %ebx, 4), %edx
+ cmpl $0, %edx
  je _endLoop
- incq %rbx
- cmpq %rax, %rdx
+ incl %ebx
+ cmpl %eax, %edx
  jle _cmpLoop
- mov %rdx, %rax
+ movl %edx, %eax
  jmp _cmpLoop
 _endLoop:
- pop %rbp
+ popq %rbp
  ret
  
